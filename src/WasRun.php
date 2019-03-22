@@ -16,6 +16,11 @@ class WasRun extends TestCase
     public $wasRun;
 
     /**
+     * @var bool
+     */
+    public $wasSetUp;
+
+    /**
      * WasRun constructor.
      * @param string $name
      */
@@ -28,5 +33,11 @@ class WasRun extends TestCase
     public function testMethod(): void
     {
         $this->wasRun = true;
+    }
+
+    public function setUp(): void
+    {
+        $this->wasRun = false;
+        $this->wasSetUp = true;
     }
 }
