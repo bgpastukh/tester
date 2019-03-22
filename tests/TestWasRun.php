@@ -8,13 +8,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 class TestWasRun
 {
-    public function testWasRun()
+    public function testWasRun(): void
     {
         $test = new WasRun('testMethod');
         echo (int)$test->wasRun;
         $test->run();
         echo (int)$test->wasRun;
-
     }
 }
 
