@@ -19,8 +19,18 @@ class TestTestCase
         $test->run();
         echo assert($test->log === 'setUp testMethod tearDown ');
     }
+
+    public function testResult(): void
+    {
+        $test = new WasRun('testmethod');
+        $result = $test->run();
+        echo assert($result->summary() === '1 run, 0 failed');
+    }
 }
 
 // consider auto running tests
 $testSetUp = new TestTestCase();
 $testSetUp->testTemplateMethod();
+
+$testSetUp = new TestTestCase();
+$testSetUp->testResult();

@@ -23,12 +23,16 @@ class TestCase
         $this->name = $name;
     }
 
-    public function run(): void
+    public function run(): TestResult
     {
         $this->setUp();
+        $result = new TestResult();
+        $result->testStarted();
         $method = $this->name;
         $this->$method();
         $this->tearDown();
+
+        return $result;
     }
 
     public function setUp(): void
