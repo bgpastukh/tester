@@ -13,32 +13,14 @@ require_once __DIR__ . '/../vendor/autoload.php';
  */
 class TestTestCase
 {
-    /** @var WasRun */
-    private $test;
-
-    public function setUp(): void
+    public function testTemplateMethod(): void
     {
-        $this->test = new WasRun('testMethod');
-    }
-
-    public function testRunning(): void
-    {
-        $this->test->run();
-        echo assert($this->test->wasRun);
-    }
-
-    public function testSetUp(): void
-    {
-        $this->test->run();
-        echo assert($this->test->wasSetUp);
+        $test = new WasRun('testMethod');
+        $test->run();
+        echo assert($test->log === 'setUp testMethod');
     }
 }
 
 // consider auto running tests
-$testRunning = new TestTestCase();
-$testRunning->setUp();
-$testRunning->testRunning();
-
 $testSetUp = new TestTestCase();
-$testSetUp->setUp();
-$testSetUp->testRunning();
+$testSetUp->testTemplateMethod();
