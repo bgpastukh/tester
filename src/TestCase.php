@@ -28,8 +28,13 @@ class TestCase
         $this->setUp();
         $result = new TestResult();
         $result->testStarted();
-        $method = $this->name;
-        $this->$method();
+        try {
+            $method = $this->name;
+            $this->$method();
+        } catch (\Throwable $e) {
+            $result->testFailed();
+        }
+
         $this->tearDown();
 
         return $result;

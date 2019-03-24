@@ -40,6 +40,14 @@ class WasRun extends TestCase
         $this->log .= 'tearDown ';
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function testBrokenMethod(): void
+    {
+        throw new \Exception();
+    }
+
     public function setUp(): void
     {
         $this->wasRun = false;
