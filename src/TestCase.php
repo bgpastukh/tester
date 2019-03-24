@@ -23,10 +23,9 @@ class TestCase
         $this->name = $name;
     }
 
-    public function run(): TestResult
+    public function run(TestResult $result): TestResult
     {
         $this->setUp();
-        $result = new TestResult();
         $result->testStarted();
         try {
             $method = $this->name;

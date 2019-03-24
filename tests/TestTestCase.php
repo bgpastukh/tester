@@ -3,7 +3,9 @@
 
 namespace App\Tests;
 
+use App\TestCase;
 use App\TestResult;
+use App\TestSuite;
 use App\WasRun;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -12,27 +14,35 @@ require_once __DIR__ . '/../vendor/autoload.php';
  * Class TestTestCase
  * @package App\Tests
  */
-class TestTestCase
+class TestTestCase extends TestCase
 {
+    /** @var TestResult */
+    private $result;
+
+    public function setUp(): void
+    {
+        $this->result = new TestResult();
+    }
+
     public function testTemplateMethod(): void
     {
         $test = new WasRun('testMethod');
-        $test->run();
-        echo assert($test->log === 'setUp testMethod tearDown ');
+        $test->run($this->result);
+        assert($test->log === 'setUp testMethod tearDown ');
     }
 
     public function testResult(): void
     {
-        $test = new WasRun('testmethod');
-        $result = $test->run();
-        echo assert($result->summary() === '1 run, 0 failed');
+        $test = new WasRun('testMethod');
+        $test->run($this->result);
+        assert($this->result->summary() === '1 run, 0 failed');
     }
 
     public function testFailedResult(): void
     {
         $test = new WasRun('testBrokenMethod');
-        $result = $test->run();
-        echo assert($result->summary() === '1 run, 1 failed');
+        $test->run($this->result);
+        assert($this->result->summary() === '1 run, 1 failed');
     }
 
     public function testFailedResultFormatting(): void
@@ -42,14 +52,26 @@ class TestTestCase
         $result->testFailed();
         assert($result->summary() === '1 run, 1 failed');
     }
+
+    public function testSuite(): void
+    {
+        $suite = new TestSuite();
+        $suite->add(new WasRun('testMethod'));
+        $suite->add(new WasRun('testBrokenMethod'));
+        $result = new TestResult();
+        $suite->run($result);
+        assert($result->summary() === '2 run, 1 failed');
+    }
 }
 
-// consider auto running tests
-$testSetUp = new TestTestCase();
-$testSetUp->testTemplateMethod();
+$suite = new TestSuite();
+$suite->add(new TestTestCase('testTemplateMethod'));
+$suite->add(new TestTestCase('testResult'));
+$suite->add(new TestTestCase('testTemplateMethod'));
+$suite->add(new TestTestCase('testFailedResult'));
+$suite->add(new TestTestCase('testSuite'));
+$suite->add(new TestTestCase('testFailedResultFormatting'));
 
-$testSetUp = new TestTestCase();
-$testSetUp->testResult();
-
-$testSetUp = new TestTestCase();
-$testSetUp->testFailedResult();
+$result = new TestResult();
+$suite->run($result);
+echo $result->summary();
