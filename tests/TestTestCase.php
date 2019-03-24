@@ -17,7 +17,7 @@ class TestTestCase
     {
         $test = new WasRun('testMethod');
         $test->run();
-        echo assert($test->log === 'setUp testMethod');
+        echo assert($test->log === 'setUp testMethod tearDown ');
     }
 }
 

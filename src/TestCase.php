@@ -28,9 +28,15 @@ class TestCase
         $this->setUp();
         $method = $this->name;
         $this->$method();
+        $this->tearDown();
     }
 
     public function setUp(): void
+    {
+
+    }
+
+    public function tearDown(): void
     {
 
     }

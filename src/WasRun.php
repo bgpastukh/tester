@@ -35,8 +35,9 @@ class WasRun extends TestCase
 
     public function testMethod(): void
     {
-        $this->wasRun = true;
-        $this->log .= 'testMethod';
+        $this->log .= 'testMethod ';
+        $this->tearDown();
+        $this->log .= 'tearDown ';
     }
 
     public function setUp(): void
